@@ -1,0 +1,8 @@
+flask
+opencv-python
+numpy
+pandas
+face-recognition
+dlib
+gunicorn       # (For deploying Flask on production)
+flask-cors     # (For handling CORS issues if needed)

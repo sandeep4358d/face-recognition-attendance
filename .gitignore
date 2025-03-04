@@ -1,0 +1,28 @@
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment
+venv/
+env/
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore datasets and model files
+*.csv
+*.xlsx
+*.h5
+*.pkl
+*.pth
+*.onnx
+*.tflite
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.cache
+.DS_Store
+

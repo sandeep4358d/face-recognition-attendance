@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition Attendance</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Face Recognition Attendance System</h1>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#" class="active" data-section="main-panel">Home</a></li>
+                <li><a href="#" data-section="dashboard-panel">Dashboard</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <!-- Main Panel -->
+            <section id="main-panel" class="panel active">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user-plus"></i> Register User</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="captureForm">
+                            <div class="form-group">
+                                <label for="name">Full Name:</label>
+                                <input type="text" id="name" placeholder="Enter student name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="id">Student ID:</label>
+                                <input type="text" id="id" placeholder="Enter student ID" required>
+                            </div>
+                            <button type="submit" class="btn primary"><i class="fas fa-camera"></i> Capture Images</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-clipboard-check"></i> Mark Attendance</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Click the button below to start the face recognition process and mark your attendance.</p>
+                        <button id="markAttendance" class="btn success"><i class="fas fa-check-circle"></i> Mark Attendance</button>
+                    </div>
+                </div>
+                
+                <div id="webcam-container" class="hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-camera"></i> Camera Preview</h2>
+                        </div>
+                        <div class="card-body">
+                            <video id="webcam" autoplay playsinline></video>
+                            <div class="progress-indicator">
+                                <span id="progress-status">Getting ready...</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progress-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="status-message"></div>
+            </section>
+            
+            <!-- Dashboard Panel -->
+            <section id="dashboard-panel" class="panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-bar"></i> Attendance Dashboard</h2>
+                        <div class="card-actions">
+                            <button id="refreshDashboard" class="btn small"><i class="fas fa-sync"></i> Refresh</button>
+                            <select id="dateFilter">
+                                <option value="today">Today</option>
+                                <option value="yesterday">Yesterday</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                                <div class="stat-info">
+                                    <h3>Total Present</h3>
+                                    <p id="totalPresent">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-user-clock"></i></div>
+                                <div class="stat-info">
+                                    <h3>On Time</h3>
+                                    <p id="onTime">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                                <div class="stat-info">
+                                    <h3>Late</h3>
+                                    <p id="late">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+                                <div class="stat-info">
+                                    <h3>Attendance Rate</h3>
+                                    <p id="attendanceRate">0%</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table id="attendanceTable" class="attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendanceList">
+                                    <!-- Attendance records will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="no-records hidden" id="noRecords">
+                            <i class="fas fa-info-circle"></i>
+                            <p>No attendance records found for the selected period.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-download"></i> Export Options</h2>
+                    </div>
+                    <div class="card-body export-options">
+                        <button id="exportCSV" class="btn secondary"><i class="fas fa-file-csv"></i> Export to CSV</button>
+                        <button id="exportPDF" class="btn secondary"><i class="fas fa-file-pdf"></i> Export to PDF</button>
+                        <button id="printReport" class="btn secondary"><i class="fas fa-print"></i> Print Report</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Face Recognition Attendance System</p>
+        </footer>
+    </div>
+    
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <span id="notification-message"></span>
+            <button id="close-notification"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+
+    <script src="../static/js/script.js"></script>
+</body>
+</html>
