@@ -18,7 +18,7 @@ This is a **Face Recognition-Based Attendance System** that automates attendance
 ## Installation
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/face-recognition-attendance.git
+   git clone https://github.com/sandeep4358d/face-recognition-attendance.git
    ```
 2. Navigate to the project folder:
    ```sh
